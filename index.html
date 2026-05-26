@@ -39,10 +39,10 @@
         
         <!-- Toggle Tabs Section -->
         <div class="grid grid-cols-2 gap-2 mb-6 bg-slate-950 p-1.5 rounded-xl border border-slate-800/80">
-            <button onclick="switchTab('catalog')" id="tab-catalog-btn" class="py-2.5 text-xs font-bold rounded-lg transition-all bg-amber-500 text-slate-950 shadow-md">
+            <button id="tab-catalog-btn" class="py-2.5 text-xs font-bold rounded-lg transition-all bg-amber-500 text-slate-950 shadow-md">
                 <i class="fa-solid fa-book-open mr-1.5"></i>Katalog Menu
             </button>
-            <button onclick="switchTab('custom')" id="tab-custom-btn" class="py-2.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-slate-100">
+            <button id="tab-custom-btn" class="py-2.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-slate-100">
                 <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i>Pesanan Kustom
             </button>
         </div>
@@ -68,10 +68,14 @@
                     </div>
 
                     <!-- Client Detail Inputs -->
-                    <div class="grid grid-cols-2 gap-3 pt-1">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                         <div>
                             <label class="block text-[10px] text-slate-400 mb-1.5 font-medium">Nama Anda:</label>
                             <input type="text" id="cust-name" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500 transition-all" placeholder="Masukkan nama Anda">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-400 mb-1.5 font-medium">Nomor WhatsApp Anda:</label>
+                            <input type="text" id="cust-phone" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-amber-500 transition-all" placeholder="Contoh: 62812xxx">
                         </div>
                         <div>
                             <label class="block text-[10px] text-slate-400 mb-1.5 font-medium">Tanggal Pengiriman:</label>
@@ -79,8 +83,8 @@
                         </div>
                     </div>
 
-                    <button class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-extrabold rounded-2xl text-xs transition-all shadow-lg shadow-amber-500/10 flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-cart-shopping"></i> Pesan Sekarang (Demo Offline)
+                    <button id="checkout-btn" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-extrabold rounded-2xl text-xs transition-all shadow-lg shadow-amber-500/10 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-cart-shopping"></i> Pesan Sekarang
                     </button>
                 </div>
             </div>
@@ -99,9 +103,15 @@
                 </p>
                 
                 <div class="space-y-4 pt-2">
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1.5 font-medium">Nama Anda:</label>
-                        <input type="text" id="custom-name" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-teal-500 transition-all" placeholder="Masukkan nama Anda">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1.5 font-medium">Nama Anda:</label>
+                            <input type="text" id="custom-name" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-teal-500 transition-all" placeholder="Masukkan nama Anda">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1.5 font-medium">Nomor WhatsApp Anda:</label>
+                            <input type="text" id="custom-phone" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-teal-500 transition-all" placeholder="Contoh: 62812xxx">
+                        </div>
                     </div>
 
                     <div>
@@ -125,8 +135,8 @@
                         <input type="datetime-local" id="custom-datetime" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-teal-500 transition-all">
                     </div>
 
-                    <button class="w-full py-3.5 bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 text-slate-950 font-extrabold rounded-2xl text-xs transition-all shadow-lg shadow-teal-500/10 flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pesanan Kustom (Demo Offline)
+                    <button id="custom-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-teal-400 to-emerald-500 hover:from-teal-500 hover:to-emerald-600 text-slate-950 font-extrabold rounded-2xl text-xs transition-all shadow-lg shadow-teal-500/10 flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pesanan Kustom
                     </button>
                 </div>
             </div>
@@ -139,8 +149,29 @@
         <p class="text-center text-[10px] text-slate-500">© 2026 Katering Nena. Dirancang untuk Demo Portofolio.</p>
     </footer>
 
-    <!-- Front-End Local Interactive Logic -->
-    <script>
+    <!-- Front-End Local Interactive Logic & Firebase Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+        // Konfigurasi Cloud Firebase Milik Anda
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_XICEbt8gideKjbec-KngJwhoZNcI4gY",
+            authDomain: "fir-katering.firebaseapp.com",
+            projectId: "fir-katering",
+            storageBucket: "fir-katering.firebasestorage.app",
+            messagingSenderId: "529450744759",
+            appId: "1:529450744759:web:8e87189109ccd6eb650632",
+            measurementId: "G-SKM8EBRVKH"
+        };
+
+        // Inisialisasi Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Nomor WhatsApp Katering Nena
+        const WA_ADMIN_NUMBER = "6287759900965"; 
+
         // Mock Catalog State
         const dbMenus = [
             { id: '1', name: 'Nasi Kotak Ayam Bakar', price: 25000, min: 15, emoji: '🍱' },
@@ -151,7 +182,7 @@
         let shoppingCart = {};
 
         // On Load Page Initialization
-        window.onload = function() {
+        window.addEventListener('DOMContentLoaded', () => {
             // Setup minimum delivery date H+1
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
@@ -159,8 +190,14 @@
             document.getElementById('cust-date').value = formattedDate;
             document.getElementById('custom-datetime').value = formattedDate + "T11:00";
 
+            // Bind Event Listeners on UI Tabs (Standard Industry Practice)
+            document.getElementById('tab-catalog-btn').addEventListener('click', () => switchTab('catalog'));
+            document.getElementById('tab-custom-btn').addEventListener('click', () => switchTab('custom'));
+            document.getElementById('checkout-btn').addEventListener('click', handleCatalogCheckout);
+            document.getElementById('custom-submit-btn').addEventListener('click', handleCustomCheckout);
+
             renderCatalog();
-        };
+        });
 
         // Switch Tabs Logic
         function switchTab(tab) {
@@ -201,13 +238,28 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2 bg-slate-900 rounded-xl p-1.5 border border-slate-800">
-                        <button onclick="changeQty('${item.id}', -1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-100 flex items-center justify-center text-xs"><i class="fa-solid fa-minus text-[8px]"></i></button>
+                        <button class="btn-minus w-6 h-6 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-100 flex items-center justify-center text-xs" data-id="${item.id}"><i class="fa-solid fa-minus text-[8px]"></i></button>
                         <span class="text-xs font-bold w-6 text-center select-none" id="qty-${item.id}">${qty}</span>
-                        <button onclick="changeQty('${item.id}', 1)" class="w-6 h-6 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-100 flex items-center justify-center text-xs"><i class="fa-solid fa-plus text-[8px]"></i></button>
+                        <button class="btn-plus w-6 h-6 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-100 flex items-center justify-center text-xs" data-id="${item.id}"><i class="fa-solid fa-plus text-[8px]"></i></button>
                     </div>
                 `;
                 container.appendChild(card);
             });
+
+            // Re-bind listeners for plus/minus buttons dynamically
+            container.querySelectorAll('.btn-minus').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    changeQty(id, -1);
+                });
+            });
+            container.querySelectorAll('.btn-plus').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.getAttribute('data-id');
+                    changeQty(id, 1);
+                });
+            });
+
             updateCartSummary();
         }
 
@@ -249,6 +301,155 @@
 
             document.getElementById('cart-count').innerText = `${count} item`;
             document.getElementById('cart-total').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        async function handleCatalogCheckout() {
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const custName = document.getElementById('cust-name').value.trim();
+            const custPhone = document.getElementById('cust-phone').value.trim();
+            const custDate = document.getElementById('cust-date').value;
+
+            if (!custName || !custPhone || !custDate) {
+                alert("Harap isi semua kolom identitas pengiriman!");
+                return;
+            }
+
+            // Gather items
+            let selectedItems = [];
+            let grandTotal = 0;
+            let totalQty = 0;
+
+            dbMenus.forEach(item => {
+                const qty = shoppingCart[item.id] || 0;
+                if (qty > 0) {
+                    selectedItems.push({
+                        name: item.name,
+                        qty: qty,
+                        subtotal: qty * item.price
+                    });
+                    grandTotal += qty * item.price;
+                    totalQty += qty;
+                }
+            });
+
+            if (selectedItems.length === 0) {
+                alert("Silakan pilih menu katering terlebih dahulu!");
+                return;
+            }
+
+            // Visual loading state
+            checkoutBtn.disabled = true;
+            checkoutBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Sedang mengirim...`;
+
+            try {
+                // Construct Order Description for Database compatibility
+                const itemsDesc = selectedItems.map(it => `${it.name} (${it.qty} Porsi)`).join(", ");
+
+                const orderDoc = {
+                    customerName: custName,
+                    customerPhone: custPhone,
+                    description: itemsDesc,
+                    quantity: totalQty,
+                    scheduleDate: custDate,
+                    status: "MENUNGGU_KONFIRMASI",
+                    createdAt: serverTimestamp()
+                };
+
+                // Save to Cloud Firestore
+                await addDoc(collection(db, "orders"), orderDoc);
+
+                // Construct WA text
+                let waMessage = `*[PESANAN BARU - KATERING NENA]*\n\n`;
+                waMessage += `*Nama Pelanggan:* ${custName}\n`;
+                waMessage += `*Tanggal Kirim:* ${custDate}\n\n`;
+                waMessage += `*Rincian Menu:*\n`;
+                selectedItems.forEach((it, idx) => {
+                    waMessage += `${idx+1}. ${it.name} (${it.qty} Porsi)\n   Subtotal: Rp ${it.subtotal.toLocaleString('id-ID')}\n`;
+                });
+                waMessage += `\n*TOTAL BAYAR:* Rp ${grandTotal.toLocaleString('id-ID')}\n\n`;
+                waMessage += `_Halo Nena, saya sudah mengirim detail pesanan ini ke database katering. Mohon dikonfirmasi ya!_`;
+
+                // Redirect to WhatsApp
+                const encodedMsg = encodeURIComponent(waMessage);
+                window.open(`https://api.whatsapp.com/send?phone=${WA_ADMIN_NUMBER}&text=${encodedMsg}`, '_blank');
+
+                // Clear cart and state
+                shoppingCart = {};
+                document.getElementById('cust-name').value = '';
+                document.getElementById('cust-phone').value = '';
+                renderCatalog();
+                alert("Pesanan berhasil disimpan di Cloud! Halaman WhatsApp Anda akan segera terbuka.");
+
+            } catch (e) {
+                console.error("Firebase write error: ", e);
+                alert("Terjadi kesalahan koneksi internet saat menyimpan data.");
+            } finally {
+                checkoutBtn.disabled = false;
+                checkoutBtn.innerHTML = `<i class="fa-solid fa-cart-shopping"></i> Pesan Sekarang`;
+            }
+        }
+
+        async function handleCustomCheckout() {
+            const submitBtn = document.getElementById('custom-submit-btn');
+            const custName = document.getElementById('custom-name').value.trim();
+            const custPhone = document.getElementById('custom-phone').value.trim();
+            const desc = document.getElementById('custom-desc').value.trim();
+            const budget = parseInt(document.getElementById('custom-budget').value);
+            const qty = parseInt(document.getElementById('custom-qty').value);
+            const datetime = document.getElementById('custom-datetime').value;
+
+            if (!custName || !custPhone || !desc || !datetime || isNaN(budget) || isNaN(qty)) {
+                alert("Harap lengkapi seluruh formulir kustom!");
+                return;
+            }
+
+            const totalEst = budget * qty;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Mengirim Request...`;
+
+            try {
+                const orderDoc = {
+                    customerName: custName + " (Kustom)",
+                    customerPhone: custPhone,
+                    description: `Request: ${desc} (Est. Rp ${budget.toLocaleString('id-ID')}/porsi)`,
+                    quantity: qty,
+                    scheduleDate: datetime.replace('T', ' '),
+                    status: "MENUNGGU_KONFIRMASI",
+                    createdAt: serverTimestamp()
+                };
+
+                // Save to Cloud Firestore
+                await addDoc(collection(db, "orders"), orderDoc);
+
+                // Construct WA text
+                let waMessage = `*[PESANAN KUSTOM - KATERING NENA]*\n\n`;
+                waMessage += `*Nama Pelanggan:* ${custName}\n`;
+                waMessage += `*Waktu Acara:* ${datetime.replace('T', ' ')}\n`;
+                waMessage += `*Jumlah:* ${qty} Porsi\n\n`;
+                waMessage += `*Permintaan Menu Khusus:*\n`;
+                waMessage += `_"${desc}"_\n\n`;
+                waMessage += `*Estimasi Anggaran:* Rp ${budget.toLocaleString('id-ID')} / porsi\n`;
+                waMessage += `*Estimasi Total:* Rp ${totalEst.toLocaleString('id-ID')}\n\n`;
+                waMessage += `_Halo Nena, saya ingin berdiskusi mengenai katering kustom di atas. Apakah bisa disanggupi?_`;
+
+                // Redirect to WhatsApp
+                const encodedMsg = encodeURIComponent(waMessage);
+                window.open(`https://api.whatsapp.com/send?phone=${WA_ADMIN_NUMBER}&text=${encodedMsg}`, '_blank');
+
+                // Clear form
+                document.getElementById('custom-name').value = '';
+                document.getElementById('custom-phone').value = '';
+                document.getElementById('custom-desc').value = '';
+                alert("Request Kustom Anda berhasil dikirim ke Cloud & WhatsApp!");
+
+            } catch (e) {
+                console.error("Firebase write error: ", e);
+                alert("Gagal mengirim request kustom. Periksa koneksi internet Anda.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-brands fa-whatsapp text-sm"></i> Kirim Pesanan Kustom`;
+            }
         }
     </script>
 </body>
